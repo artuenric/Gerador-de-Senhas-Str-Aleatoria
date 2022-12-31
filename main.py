@@ -26,14 +26,21 @@ def main(page: Page):
             page.views.append(help)
         page.update()
 
+    #remove top view
+    def view_pop(view):
+        page.views.pop()
+        top_view = page.views[-1]
+        page.go(top_view.route)
+    
     #call the rout functions
     page.on_route_change = route_change
+    page.on_view_pop = view_pop
     page.go(page.route)
 
     #Views (as the command is done with the append, the last to be inserted is the first page to be directed)
     page.views.append(home)
     page.update()
 
-ft.app(target=main, view=ft.WEB_BROWSER)
+ft.app(target=main)
 
 #Notas: preciso adicionar aquela função view_pop pra testar a navegação e o histórico das páginas.
