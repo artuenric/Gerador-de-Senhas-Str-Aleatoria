@@ -35,3 +35,5 @@ def main(page: Page):
     page.update()
 
 ft.app(target=main, view=ft.WEB_BROWSER)
+
+#Notas: preciso adicionar aquela função view_pop pra testar a navegação e o histórico das páginas.
