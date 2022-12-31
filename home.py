@@ -1,6 +1,7 @@
 import flet as ft
 import random as rd
 import string as st
+import re
 
 def pg():
     """
@@ -23,11 +24,38 @@ def pg():
         ]
     )
 
-#On ascii 8 bits: A = 65, Z = 90 and a = 97, z = 122
-letter_lower = lambda: chr(rd.randint(97, 122))
-letter_upper = lambda: chr(rd.randint(65, 90))
-specials_chars = lambda: chr(rd.randint(33, 64))
-number = lambda: rd.randint(0,9)
+#Characteres types
+#Based on table ascii 8 bits
+lowercase = lambda: chr(rd.randint(97, 122))
+number = lambda: chr(rd.randint(48,57))
+#These types will be optional
+uppercase = lambda: chr(rd.randint(65, 90))
+specials_chars = lambda: chr(rd.randint(33, 47))
 
-print(letter_lower(), letter_upper())
+#Habilit more types to characters
+habilit_upper = True
+habilit_special = True
 
+#Random string features
+size = 20
+psswd = ""
+
+#Decision of the types of characters
+choose_new_char = lambda: rd.randint(1,4)
+
+#Finally generate string
+for generate in range(size):
+    decide = choose_new_char()
+    if decide == 1:
+        psswd += lowercase()
+
+    elif decide == 2:
+        psswd += number()
+
+    elif decide == 3:
+        psswd += uppercase()
+
+    elif decide == 4:
+        psswd += specials_chars()
+
+print(psswd)
