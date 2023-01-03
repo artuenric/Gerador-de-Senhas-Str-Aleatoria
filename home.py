@@ -21,74 +21,113 @@ def pg():
     habilit_upper = True
     habilit_special = True
 
-    #Random string features
-    size = 20
-    psswd = ""
-
     #Decision of the types of characters
     choose_new_char = lambda: rd.randint(1,4)
 
-    #Finally generate string
-    for generate in range(size):
-
-        decide = choose_new_char()
-        if decide == 1:
-            psswd += lowercase()
-
-        elif decide == 2:
-            psswd += number()
-
-        elif decide == 3:
-            psswd += uppercase()
-
-        elif decide == 4:
-            psswd += specials_chars()
-
    
     #Change string size
-    def change_size(e):
-        size_on_slider.value = f"{slider_size.value:.0f} caracteres"
-        size_on_slider.update()
+    def change_slider(e):
 
-    size_on_slider = ft.Text()
-    slider_size = ft.Slider(
+        if slider.value <= 10:    nice = ':('
+        elif slider.value <= 15:  nice = ':|'
+        elif slider.value <= 25:  nice = ':)'
+        elif slider.value <= 40:  nice = ':D'
+        else:                     nice = ':O'
+        
+        size_on_text.value = f"{slider.value:.0f} caracteres! {nice}"
+        size = int(slider.value//1)
+        psswd = ""
+
+        for genrt in range(size):
+            decide = choose_new_char()
+            if decide == 1:
+                psswd += lowercase()
+            elif decide == 2:
+                psswd += number()
+            elif decide == 3:
+                psswd += uppercase()
+            elif decide == 4:
+                psswd += specials_chars()
+        print(psswd)
+        size_on_text.update()
+        text_box.value = psswd
+        text_box.update()
+
+
+    size_on_text = ft.Text()
+    slider = ft.Slider(
                         width = 500,
                         min = 4,
                         max = 50,
                         opacity = 40,
                         active_color= "#ffffff",
-                        on_change = change_size
+                        value = 4,
+                        on_change = change_slider
                         )
     
-    msg = ft.Text("Sua senha é ridicularmente fraca")
+    #Level of security
+    def number_and_letters(string):
+        if re.search(r'[a-zA-Z]', string) and re.search(r'\d', string):
+            return True
+        return False
+
+    def and_special_char(string):
+        if number_and_letters(string):
+            if re.search(r'[\w\s]'):
+                return True
+        return False
+
+    """
+    def how_safe(e):
+        quant_slider_size = int(slider.value//1)
+        quant_text_box = len(text_box.value)
+
+        if text_box.value.isdigit():
+ 
+        elif text_box.value.islower():
+
+        elif text_box.value.isalpha():
+  
+        elif number_and_letters(text_box.value):
+
+        elif and_special_char(text_box.value): 
+    """
+
+    text_box = ft.TextField(
+            label = "Sua senha:"
+            #on_change = how_safe
+    )
+ 
+    msg = ft.Text()
 
     #Interface structure
     base = ft.ResponsiveRow(
         [
-            ft.Column(
-                [
-                ft.Row(controls = [
-                    ft.Container(ft.Text("Deslize para mudar o tamanho da senha"))
+                ft.Row(
+                    alignment = ft.MainAxisAlignment.CENTER,
+                    controls = [
+                    ft.Container(
+                        content = ft.Text("Deslize para mudar o tamanho da senha"))
                     ]),
-                ft.Row(controls = [
-                    ft.Container(slider_size),
-                    ft.Container(size_on_slider)
+                ft.Column(
+                    col = 9,
+                    controls = [
+                    ft.Container(
+                        alignment = ft.alignment.top_center,
+                        content = slider),
                     ]),
-                ft.Row([
+                ft.Column(
+                    col = 3,
+                    controls = [
+                    ft.Container(text_box),
+                    ft.Container(size_on_text),
                     ft.Container(msg)
                     ])
-                ]
-            )
+                
         ]
     )
 
-
-
-    go_to_help = ft.ElevatedButton(
-                    "HELP",
-                    on_click = lambda e: e.page.go("/help")
-                    )
-
+    #What return for view
     return ft.View(
         "/home", #Argument for route
         scroll = ft.ScrollMode.AUTO,
