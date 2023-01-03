@@ -5,6 +5,7 @@ from flet import Page
 from home import pg as v1
 from help import pg as v2
 
+
 def main(page: Page):
     """
     Basic function of flet creation
@@ -39,12 +40,13 @@ def main(page: Page):
     page.on_route_change = route_change
     page.on_view_pop = view_pop
     page.go(page.route)
-
+    
     #Views (as the command is done with the append, the last to be inserted is the first page to be directed)
     page.views.append(help)
     page.views.append(home)
     page.update()
 
 ft.app(target=main)
+
 
 #Notas: preciso adicionar aquela função view_pop pra testar a navegação e o histórico das páginas.

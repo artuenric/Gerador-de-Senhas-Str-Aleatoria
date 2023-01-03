@@ -1,7 +1,10 @@
+#Interface
 import flet as ft
+#Generate random string
 import random as rd
-import string as st
+#Regex
 import re
+
 
 #For better readability, we put the functions and controls before the return with "view"
 def pg():
@@ -48,9 +51,9 @@ def pg():
                 psswd += uppercase()
             elif decide == 4:
                 psswd += specials_chars()
-        print(psswd)
+
         size_on_text.update()
-        text_box.value = psswd
+        text_box.value = psswd 
         text_box.update()
 
 
@@ -60,7 +63,8 @@ def pg():
                         min = 4,
                         max = 50,
                         opacity = 40,
-                        active_color= "#ffffff",
+                        active_color= "#B6D094",
+                        thumb_color = "#B6D094",
                         value = 4,
                         on_change = change_slider
                         )
@@ -94,15 +98,31 @@ def pg():
     """
 
     text_box = ft.TextField(
-            label = "Sua senha:"
+            cursor_color = "#B6D094",
+            border_width = 2,
+            border_color = "#B6D094",
+            focused_border_color = "#F0F5FA",
+            width = 450,
+            height = 80,
+            label = "Sua senha:",
+            label_style = ft.TextStyle(color="#F0F5FA")
             #on_change = how_safe
     )
  
     msg = ft.Text()
+    again_button = ft.IconButton(
+            ft.icons.REPLAY_CIRCLE_FILLED,
+            width = 40,
+            height = 40,
+            icon_size = 30,
+            icon_color = "#B6D094",
+            on_click = change_slider)
 
+    #Copypaste
+    
     #Interface structure
     base = ft.ResponsiveRow(
-        [
+            [
                 ft.Row(
                     alignment = ft.MainAxisAlignment.CENTER,
                     controls = [
@@ -110,26 +130,38 @@ def pg():
                         content = ft.Text("Deslize para mudar o tamanho da senha"))
                     ]),
                 ft.Column(
-                    col = 9,
+                    alignment = ft.MainAxisAlignment.CENTER,
+                    horizontal_alignment = ft.CrossAxisAlignment.CENTER,
+                    width = 500,
+                    col = 12,
                     controls = [
                     ft.Container(
                         alignment = ft.alignment.top_center,
+                        content = text_box),
+                    ft.Container(
+                        content = msg),
+                    ft.Container(
                         content = slider),
-                    ]),
-                ft.Column(
-                    col = 3,
-                    controls = [
-                    ft.Container(text_box),
-                    ft.Container(size_on_text),
-                    ft.Container(msg)
-                    ])
-                
-        ]
-    )
+                    ft.Row(
+                        col = 2,
+                        alignment = ft.MainAxisAlignment.SPACE_EVENLY,
+                        controls = [
+                            ft.Container(
+                                width = 30,
+                                content = again_button), 
+                            ft.Container(
+                                width = 120,
+                                content = size_on_text)
+                            ])
+                    ]
+                )   
+            ]
+        )
 
     #What return for view
     return ft.View(
         "/home", #Argument for route
+        bgcolor = "#00070D",
         scroll = ft.ScrollMode.AUTO,
         controls= [
             base
