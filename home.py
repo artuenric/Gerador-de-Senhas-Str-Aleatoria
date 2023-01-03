@@ -30,6 +30,7 @@ def pg():
 
     #Finally generate string
     for generate in range(size):
+
         decide = choose_new_char()
         if decide == 1:
             psswd += lowercase()
@@ -44,31 +45,38 @@ def pg():
             psswd += specials_chars()
 
    
-    texto = ft.Text("uepa")
+    #Change string size
     def change_size(e):
-        texto.value = f"Oi {select_size.value}"
-        pg.update()
-       
-   
-    select_size = ft.Slider(
-                        on_change = change_size,
-                        max = 100,
-                        min = 0,
-                        divisions=100,
-                        label="{value}"
+        size_on_slider.value = f"{slider_size.value:.0f} caracteres"
+        size_on_slider.update()
+
+    size_on_slider = ft.Text()
+    slider_size = ft.Slider(
+                        width = 500,
+                        min = 4,
+                        max = 50,
+                        opacity = 40,
+                        active_color= "#ffffff",
+                        on_change = change_size
                         )
+    
+    msg = ft.Text("Sua senha é ridicularmente fraca")
 
-
+    #Interface structure
     base = ft.ResponsiveRow(
         [
             ft.Column(
                 [
-                  ft.Container(
-                    select_size
-                  ),
-                  ft.Container(
-                    texto
-                  )
+                ft.Row(controls = [
+                    ft.Container(ft.Text("Deslize para mudar o tamanho da senha"))
+                    ]),
+                ft.Row(controls = [
+                    ft.Container(slider_size),
+                    ft.Container(size_on_slider)
+                    ]),
+                ft.Row([
+                    ft.Container(msg)
+                    ])
                 ]
             )
         ]
@@ -76,19 +84,15 @@ def pg():
 
 
 
-
-    container_hello = ft.Container(ft.Text("Olá! Você está na home."))
     go_to_help = ft.ElevatedButton(
                     "HELP",
-                    on_click = lambda e: e.page.go("/help"))
-
+                    on_click = lambda e: e.page.go("/help")
+                    )
 
     return ft.View(
         "/home", #Argument for route
         scroll = ft.ScrollMode.AUTO,
         controls= [
-            container_hello,
-            go_to_help,
             base
         ]
     )

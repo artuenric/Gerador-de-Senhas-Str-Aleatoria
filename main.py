@@ -9,6 +9,9 @@ def main(page: Page):
     """
     Basic function of flet creation
     """
+    page.fonts = {
+        "RobotoSlab": "https://github.com/google/fonts/raw/main/apache/robotoslab/RobotoSlab%5Bwght%5D.ttf"
+        }
 
     #Title window
     page.title = "Gerador de Senhas"
@@ -38,6 +41,7 @@ def main(page: Page):
     page.go(page.route)
 
     #Views (as the command is done with the append, the last to be inserted is the first page to be directed)
+    page.views.append(help)
     page.views.append(home)
     page.update()
 
