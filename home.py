@@ -4,7 +4,8 @@ import flet as ft
 import random as rd
 #Regex
 import re
-
+#Any functions
+from myfunctions import *
 
 #For better readability, we put the functions and controls before the return with "view"
 def pg():
@@ -12,7 +13,7 @@ def pg():
     Creates a specific page to use with the "view", in this case, the main page or "home".
     """
 
-    #Characteres types
+    #Characters types
     #Based on table ascii 8 bits
     lowercase = lambda: chr(rd.randint(97, 122))
     number = lambda: chr(rd.randint(48,57))
@@ -20,9 +21,9 @@ def pg():
     uppercase = lambda: chr(rd.randint(65, 90))
     specials_chars = lambda: chr(rd.randint(33, 47))
 
-    #Habilit more types to characters
-    habilit_upper = True
-    habilit_special = True
+    #Enable more types to characters
+    enable_upper = True
+    enable_special = True
 
     #Decision of the types of characters
     choose_new_char = lambda: rd.randint(1,4)
@@ -39,48 +40,39 @@ def pg():
         
         size_on_text.value = f"{slider.value:.0f} caracteres! {nice}"
         size = int(slider.value//1)
-        psswd = ""
+        passwd = ""
 
         for genrt in range(size):
             decide = choose_new_char()
             if decide == 1:
-                psswd += lowercase()
+                passwd += lowercase()
             elif decide == 2:
-                psswd += number()
+                passwd += number()
             elif decide == 3:
-                psswd += uppercase()
+                passwd += uppercase()
             elif decide == 4:
-                psswd += specials_chars()
+                passwd += specials_chars()
 
         size_on_text.update()
-        text_box.value = psswd 
+        text_box.value = passwd 
         text_box.update()
 
 
-    size_on_text = ft.Text()
+    size_on_text = ft.Text(
+        text_align = ft.TextAlign.CENTER)
     slider = ft.Slider(
-                        width = 500,
                         min = 4,
                         max = 50,
                         opacity = 40,
                         active_color= "#B6D094",
                         thumb_color = "#B6D094",
                         value = 4,
-                        on_change = change_slider
-                        )
+                        on_change = change_slider)
     
-    #Level of security
-    def number_and_letters(string):
-        if re.search(r'[a-zA-Z]', string) and re.search(r'\d', string):
-            return True
-        return False
 
-    def and_special_char(string):
-        if number_and_letters(string):
-            if re.search(r'[\w\s]'):
-                return True
-        return False
-
+    #Is coming:
+        #Copypaste
+        #How safe?
     """
     def how_safe(e):
         quant_slider_size = int(slider.value//1)
@@ -118,43 +110,38 @@ def pg():
             icon_color = "#B6D094",
             on_click = change_slider)
 
-    #Copypaste
-    
+
     #Interface structure
-    base = ft.ResponsiveRow(
-            [
-                ft.Row(
-                    alignment = ft.MainAxisAlignment.CENTER,
-                    controls = [
-                    ft.Container(
-                        content = ft.Text("Deslize para mudar o tamanho da senha"))
-                    ]),
-                ft.Column(
-                    alignment = ft.MainAxisAlignment.CENTER,
-                    horizontal_alignment = ft.CrossAxisAlignment.CENTER,
-                    width = 500,
-                    col = 12,
-                    controls = [
-                    ft.Container(
-                        alignment = ft.alignment.top_center,
-                        content = text_box),
-                    ft.Container(
-                        content = msg),
-                    ft.Container(
-                        content = slider),
+    base = ft.Column(
+        height = 700,
+        col = 12,
+        alignment = ft.MainAxisAlignment.CENTER,
+        horizontal_alignment = ft.CrossAxisAlignment.CENTER,
+        spacing = 0,
+        controls = [
+            ft.ResponsiveRow(
+                width = 450,
+                controls = [ft.Text(
+                    text_align = "center",
+                    value = "Deslize para mudar o tamanho da senha\n")]),
+            ft.ResponsiveRow(
+                width = 400,
+                controls = [text_box]),
+            ft.ResponsiveRow(
+                width = 450,
+                controls = [slider]),
+            ft.ResponsiveRow(
+                width = 400,
+                controls = [
                     ft.Row(
-                        col = 2,
-                        alignment = ft.MainAxisAlignment.SPACE_EVENLY,
+                        alignment = ft.MainAxisAlignment.SPACE_BETWEEN,
                         controls = [
-                            ft.Container(
-                                width = 30,
-                                content = again_button), 
-                            ft.Container(
-                                width = 120,
-                                content = size_on_text)
-                            ])
-                    ]
-                )   
+                            size_on_text, 
+                            again_button])
+                        ]),
+            ft.ResponsiveRow(
+                width = 350,
+                controls = [msg]),
             ]
         )
 
@@ -163,6 +150,8 @@ def pg():
         "/home", #Argument for route
         bgcolor = "#00070D",
         scroll = ft.ScrollMode.AUTO,
+        vertical_alignment = ft.MainAxisAlignment.CENTER,
+        horizontal_alignment = ft.CrossAxisAlignment.CENTER,
         controls= [
             base
         ]

@@ -48,5 +48,3 @@ def main(page: Page):
 
 ft.app(target=main)
 
-
-#Notas: preciso adicionar aquela função view_pop pra testar a navegação e o histórico das páginas.
